@@ -257,7 +257,7 @@ const Home = () => {
     });
   };
   useEffect(() => {
-    getPeerInitialState();
+    // getPeerInitialState();
     setPeerObject();
     genScreenStream();
     canvasRef.current.style.top = videoRef.current.offsetTop + "px";
@@ -289,11 +289,11 @@ const Home = () => {
           console.log("loaded Model and resolved all promises");
           getPicture(videoRef.current, values[0]); // this is with picture fracation method
           //After Everything Working, initilize peer connection
-          if (!peer) {
-            throw new Error("Peer not initialized");
-          } else {
-            peer.call("5rpu21jh1p200000", window.stream);
-          }
+          // if (!peer) {
+          //   throw new Error("Peer not initialized");
+          // } else {
+          //   peer.call("5rpu21jh1p200000", window.stream);
+          // }
         })
         .catch(error => {
           console.error(error);

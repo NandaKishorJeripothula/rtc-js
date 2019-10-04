@@ -33,10 +33,10 @@ export default function callSocket(video) {
     socket.emit("watcher");
   });
 
-  socket.on("broadcaster", function() {
-    console.log("from broadcaster");
-    socket.emit("watcher");
-  });
+  //   socket.on("broadcaster", function() {
+  //     console.log("from broadcaster");
+  //     socket.emit("watcher");
+  //   });
   socket.on("watcher", function(id) {
     console.log("watcher called");
     const peerConnection = new RTCPeerConnection(config);
@@ -46,6 +46,7 @@ export default function callSocket(video) {
       .createOffer()
       .then(sdp => peerConnection.setLocalDescription(sdp))
       .then(function() {
+        console.log("emittig offer");
         socket.emit("offer", id, peerConnection.localDescription);
       });
     peerConnection.onicecandidate = function(event) {
@@ -57,7 +58,7 @@ export default function callSocket(video) {
 
   socket.on("candidate", function(id, candidate) {
     console.log("candidate received");
-    console.log(peerConnections[id]);
+    // console.log(peerConnections[id]);
     peerConnections[id]
       .addIceCandidate(new RTCIceCandidate(candidate))
       .catch(e => console.error(e));
@@ -70,33 +71,6 @@ export default function callSocket(video) {
   socket.on("bye", function(id) {
     peerConnections[id] && peerConnections[id].close();
     delete peerConnections[id];
+    console.log("socket closed");
   });
-  //   socket.on("offer", function(id, description) {
-  //     console.log("offer called");
-  //     peerConnection = new RTCPeerConnection(config);
-  //     peerConnection
-  //       .setRemoteDescription(description)
-  //       .then(() => peerConnection.createAnswer())
-  //       .then(sdp => peerConnection.setLocalDescription(sdp))
-  //       .then(function() {
-  //         socket.emit("answer", id, peerConnection.localDescription);
-  //       });
-  //     peerConnection.onaddstream = function(event) {
-  //       video.srcObject = event.stream;
-  //     };
-  //     peerConnection.onicecandidate = function(event) {
-  //       if (event.candidate) {
-  //         socket.emit("candidate", id, event.candidate);
-  //       }
-  //     };
-  //   });
-
-  //   socket.on("bye", function() {
-  //     peerConnection.close();
-  //   });
-
-  //   socket.on("candidate", function(id, candidate) {
-  //     console.log("second method");
-  //     peerConnections[id].addIceCandidate(new RTCIceCandidate(candidate));
-  //   });
 }
