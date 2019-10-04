@@ -89,7 +89,7 @@ const Home = () => {
 
   const genScreenStream = async () => {
     await getAudioWithScreen();
-    // if (audioWithScreen instanceof MediaStream) {
+    // if (audioWithScreen instanceof MediaStream) {+
     //   setVideoURL(audioWithScreen, true);
     // } else {
     //   console.log("Error with permisions do check");
@@ -338,6 +338,7 @@ const Home = () => {
           width="320"
           height="240"
           style={{
+            display: "none",
             borderRadius: 10,
             border: "solid",
             borderColor: "red",
